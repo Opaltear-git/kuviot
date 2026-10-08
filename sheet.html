@@ -1,0 +1,34 @@
+<!doctype html><html><body style="margin:0;display:grid;gap:4px;background:#ddd;align-items:start">
+<!--
+  Dev contact sheet for tuning. The hash picks what to show and the seed:
+    sheet.html#42          32 flowers
+    sheet.html#bush42      8 bushes        (also #panel42, #bookmark42)
+    sheet.html#tile42      6 wallpapers
+  Add "f" to force full flourish, e.g. #panelf42.
+-->
+<script type="module">
+import { renderBloom, DNA_LEN, CDNA_LEN } from '/src/bloom.ts';
+import { renderBush, BDNA_LEN } from '/src/bush.ts';
+import { renderTile } from '/src/tile.ts';
+import { PALETTES } from '/src/palettes.ts';
+import { mulberry32, randomGenes } from '/src/rng.ts';
+const h = location.hash;
+const kind = (h.match(/bush|panel|bookmark|tile/) || ['flower'])[0];
+const rng = mulberry32(Number(h.replace(/\D/g, '')) || 7);
+const cols = { flower: 8, bush: 4, panel: 4, bookmark: 6, tile: 3 }[kind];
+const count = { flower: 32, bush: 8, panel: 4, bookmark: 6, tile: 6 }[kind];
+document.body.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+for (let i = 0; i < count; i++) {
+  const pal = PALETTES[Math.floor(rng() * PALETTES.length)];
+  const p = { lush: rng(), open: rng(), shape: rng(), curl: rng() };
+  const s = { dna: randomGenes(DNA_LEN, rng), cdna: randomGenes(CDNA_LEN, rng), bdna: randomGenes(BDNA_LEN, rng) };
+  const bp = { density: rng(), flourish: h.includes('f') ? 1 : rng(), mirror: i % 2 === 0, frame: kind === 'flower' || kind === 'tile' ? 'bush' : kind };
+  const d = document.createElement('div');
+  d.style.background = pal.bg;
+  d.innerHTML =
+    kind === 'flower' ? renderBloom(s.dna, s.cdna, p, pal)
+    : kind === 'tile' ? renderTile(s, p, bp, pal, { background: true })
+    : renderBush(s, p, bp, pal);
+  document.body.append(d);
+}
+</script></body></html>

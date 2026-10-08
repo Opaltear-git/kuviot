@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>kuviot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="panel controls">
+        <h1>kuviot</h1>
+        <p class="tag">folk flowers, endlessly</p>
+
+        <div class="label">Palette</div>
+        <div class="palettes" id="palettes"></div>
+
+        <div class="label">Shape</div>
+        <label class="slider">
+          <span class="ends"><span>sparse</span><b>Lushness</b><span>lush</span></span>
+          <input type="range" min="0" max="1" step="0.001" data-param="lush" />
+        </label>
+        <label class="slider">
+          <span class="ends"><span>fan</span><b>Openness</b><span>rosette</span></span>
+          <input type="range" min="0" max="1" step="0.001" data-param="open" />
+        </label>
+        <label class="slider">
+          <span class="ends"><span>round</span><b>Petals</b><span>pointy</span></span>
+          <input type="range" min="0" max="1" step="0.001" data-param="shape" />
+        </label>
+        <label class="slider">
+          <span class="ends"><span>straight</span><b>Curl</b><span>curly</span></span>
+          <input type="range" min="0" max="1" step="0.001" data-param="curl" />
+        </label>
+
+        <div class="layout-only">
+          <div class="label">Layout</div>
+          <div class="chips bush-only" id="frames">
+            <button data-frame="bush">Bush</button>
+            <button data-frame="panel">Panel</button>
+            <button data-frame="bookmark">Bookmark</button>
+          </div>
+          <label class="slider">
+            <span class="ends"><span>few big</span><b>Density</b><span>many small</span></span>
+            <input type="range" min="0" max="1" step="0.001" id="density" />
+          </label>
+          <label class="slider">
+            <span class="ends"><span>tidy</span><b>Flourish</b><span>swirly</span></span>
+            <input type="range" min="0" max="1" step="0.001" id="flourish" />
+          </label>
+          <label class="switch bush-only">
+            <input type="checkbox" id="mirror" />
+            <span class="track"></span>
+            <span>Mirror symmetry</span>
+          </label>
+        </div>
+
+        <div class="label">Make</div>
+        <div class="buttons">
+          <button class="btn primary" id="new">✿ New bloom</button>
+          <button class="btn" id="colors">Shuffle colors</button>
+          <button class="btn wide layout-only" id="layout">Shuffle layout</button>
+          <button class="btn" id="undo">↶ Undo</button>
+          <button class="btn" id="svg">Save SVG</button>
+          <button class="btn" id="png">Save PNG</button>
+          <button class="btn wide" id="link">Copy link to this flower</button>
+        </div>
+      </aside>
+
+      <main class="stage-wrap">
+        <div class="modes" role="tablist">
+          <button role="tab" data-mode="flower">✿ Flower</button>
+          <button role="tab" data-mode="bush">❀ Bush</button>
+          <button role="tab" data-mode="tile">▦ Wallpaper</button>
+        </div>
+        <div class="stage" id="stage"></div>
+        <p class="hint">
+          <kbd>Space</kbd> new · <kbd>C</kbd> colors · <kbd>Z</kbd> undo · <kbd>B</kbd> mode · <kbd>L</kbd> layout · <kbd>1</kbd>–<kbd>9</kbd> pick offspring
+        </p>
+      </main>
+
+      <aside class="panel offspring">
+        <div class="label first">Offspring</div>
+        <p class="tag">Pick one to breed the next generation.</p>
+        <div class="grid" id="grid"></div>
+        <label class="slider">
+          <span class="ends"><span>subtle</span><b>Mutation</b><span>wild</span></span>
+          <input type="range" min="0" max="1" step="0.001" id="mutation" />
+        </label>
+        <button class="btn wide" id="rebreed">More like this</button>
+      </aside>
+    </div>
+    <div class="toast" id="toast" role="status"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
